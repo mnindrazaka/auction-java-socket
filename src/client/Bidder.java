@@ -61,7 +61,7 @@ public class Bidder {
             try {
                 ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
                 ObjectOutput outputObject = new ObjectOutputStream(outputBytes);
-                
+
                 outputObject.writeObject(new Data(Data.REQUEST_BID, new Bid(price, username)));
                 byte[] bytesData = outputBytes.toByteArray();
                 DatagramPacket packet = new DatagramPacket(bytesData, bytesData.length);
@@ -69,30 +69,32 @@ public class Bidder {
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
-        }   
+        }
         return isPriceEnough(price);
     }
-  
+
     public boolean isPriceEnough(int price) {
         return price > auction.getLastBid().getPrice();
     }
-    
+
     public void listenBid() {
-        try {
-            byte[] incomingData = new byte[1024];
-            DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-            socket.receive(incomingPacket);
-            
-            ByteArrayInputStream inputBytes = new ByteArrayInputStream(incomingPacket.getData());
-            ObjectInputStream inputObject = new ObjectInputStream(inputBytes);
-            
-            Data data = (Data) inputObject.readObject();
-            
-            if (data.getType() == Data.RESPONSE_BID) {
-                auction.setLastBid((Bid) data.getPayload());
+        new Thread(() -> {
+            try {
+                byte[] incomingData = new byte[1024];
+                DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+                socket.receive(incomingPacket);
+
+                ByteArrayInputStream inputBytes = new ByteArrayInputStream(incomingPacket.getData());
+                ObjectInputStream inputObject = new ObjectInputStream(inputBytes);
+
+                Data data = (Data) inputObject.readObject();
+
+                if (data.getType() == Data.RESPONSE_BID) {
+                    auction.setLastBid((Bid) data.getPayload());
+                }
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println(ex.getMessage());
             }
-        } catch (IOException | ClassNotFoundException ex) {
-            System.out.println(ex.getMessage());
-        }
+        }).start();
     }
 }

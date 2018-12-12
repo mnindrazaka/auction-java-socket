@@ -16,17 +16,17 @@ import server.Product;
  *
  * @author Devgunner
  */
-public class Room extends javax.swing.JFrame {
+public class CreateAuctionForm extends javax.swing.JFrame {
     /**
      * Creates new form Room
      */
     private ServerForm parent;
     
-    public Room() {
+    public CreateAuctionForm() {
         initComponents();
     }
     
-    public Room(ServerForm parent) {
+    public CreateAuctionForm(ServerForm parent) {
         initComponents();
         this.parent = parent;
     }
@@ -126,7 +126,7 @@ public class Room extends javax.swing.JFrame {
 
     private void btn_createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_createActionPerformed
         // TODO add your handling code here:
-        parent.addRoom(createAuction());
+        parent.addAuction(createAuction());
         this.setVisible(false);
     }//GEN-LAST:event_btn_createActionPerformed
 
@@ -141,7 +141,7 @@ public class Room extends javax.swing.JFrame {
             Product product = new Product(name, price);
             auction = new Auction(product, address, port);
         } catch (UnknownHostException ex) {
-            Logger.getLogger(Room.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Auction.class.getName()).log(Level.SEVERE, null, ex);
         }
         return auction;
     }
@@ -163,21 +163,23 @@ public class Room extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Room.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Auction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Room.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Auction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Room.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Auction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Room.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Auction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Room().setVisible(true);
+                new CreateAuctionForm().setVisible(true);
             }
         });
     }

@@ -16,6 +16,7 @@ import server.Server;
 public class ServerForm extends javax.swing.JFrame {
     
     private Server server = new Server();
+    private Auction selectedAuction;
     
     /**
      * Creates new form Server
@@ -23,6 +24,7 @@ public class ServerForm extends javax.swing.JFrame {
     public ServerForm() {
         initComponents();
         server.startServer();
+        normalMode();
     }
 
     /**
@@ -36,44 +38,72 @@ public class ServerForm extends javax.swing.JFrame {
 
         btn_print = new java.awt.Button();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_room = new javax.swing.JTable();
-        btn_edit = new java.awt.Button();
+        tbl_auction = new javax.swing.JTable();
+        btn_stop = new java.awt.Button();
         btn_create = new java.awt.Button();
+        btn_start = new java.awt.Button();
+        btn_cancel = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btn_print.setActionCommand("ButtonPrint");
         btn_print.setLabel("Print Out");
 
-        tbl_room.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_auction.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Product Name", "Price", "Address", "Port"
+                "Product Name", "Price", "Address", "Port", "Last Bid", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tbl_room);
+        tbl_auction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_auctionMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_auction);
 
-        btn_edit.setActionCommand("buttonCreate");
-        btn_edit.setLabel("Edit");
+        btn_stop.setActionCommand("buttonCreate");
+        btn_stop.setLabel("Stop");
+        btn_stop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_stopMouseClicked(evt);
+            }
+        });
 
         btn_create.setActionCommand("buttonCreate");
-        btn_create.setLabel("Create Room");
+        btn_create.setLabel("Create Auction");
         btn_create.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_createActionPerformed(evt);
+            }
+        });
+
+        btn_start.setActionCommand("buttonCreate");
+        btn_start.setLabel("Start");
+        btn_start.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_startMouseClicked(evt);
+            }
+        });
+
+        btn_cancel.setActionCommand("ButtonPrint");
+        btn_cancel.setLabel("Cancel");
+        btn_cancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cancelMouseClicked(evt);
             }
         });
 
@@ -83,14 +113,18 @@ public class ServerForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_create, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_print, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btn_create, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btn_start, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btn_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btn_print, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -98,41 +132,88 @@ public class ServerForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_print, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_create, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_create, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_start, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        btn_edit.getAccessibleContext().setAccessibleName("buttonCreate");
+        btn_stop.getAccessibleContext().setAccessibleName("buttonCreate");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    public void addRoom(Auction auction) {
+    private void normalMode() {
+        tbl_auction.clearSelection();
+        btn_print.setEnabled(false);
+        btn_start.setEnabled(false);
+        btn_stop.setEnabled(false);
+        btn_cancel.setEnabled(false);
+    }
+    
+    private void editMode() {
+        btn_print.setEnabled(true);
+        btn_start.setEnabled(!selectedAuction.getStatus());
+        btn_stop.setEnabled(selectedAuction.getStatus());
+        btn_cancel.setEnabled(true);
+    }
+    
+    public void addAuction(Auction auction) {
         server.addAuction(auction);
         refreshTable();
     }
     
     private void refreshTable() {
-        DefaultTableModel model = (DefaultTableModel) tbl_room.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbl_auction.getModel();
         model.setRowCount(0);
         server.getAuctions().forEach((auction) -> {
             model.addRow(new Object[]{
                 auction.getProduct().getName(),
                 auction.getProduct().getPrice(),
                 auction.getAddress().toString(),
-                auction.getPort()
+                auction.getPort(),
+                auction.getLastBid().getPrice(),
+                auction.getStatus() ? "Started" : "Stopped"
             });
         });
     }
     
     private void btn_createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_createActionPerformed
         // TODO add your handling code here:
-        new Room(this).setVisible(true);
+        new CreateAuctionForm(this).setVisible(true);
     }//GEN-LAST:event_btn_createActionPerformed
+
+    private void tbl_auctionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_auctionMouseClicked
+        // TODO add your handling code here:
+        int index = tbl_auction.getSelectedRow();
+        selectedAuction = server.getAuctions().get(index);
+        editMode();
+    }//GEN-LAST:event_tbl_auctionMouseClicked
+
+    private void btn_cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cancelMouseClicked
+        // TODO add your handling code here:
+        normalMode();
+        selectedAuction = null;
+    }//GEN-LAST:event_btn_cancelMouseClicked
+
+    private void btn_startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_startMouseClicked
+        // TODO add your handling code here:
+        selectedAuction.startAuction();
+        refreshTable();
+        normalMode();
+    }//GEN-LAST:event_btn_startMouseClicked
+
+    private void btn_stopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_stopMouseClicked
+        // TODO add your handling code here:
+        selectedAuction.stopAuction();
+        refreshTable();
+        normalMode();
+    }//GEN-LAST:event_btn_stopMouseClicked
     
     /**
      * @param args the command line arguments
@@ -173,10 +254,12 @@ public class ServerForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.awt.Button btn_cancel;
     private java.awt.Button btn_create;
-    private java.awt.Button btn_edit;
     private java.awt.Button btn_print;
+    private java.awt.Button btn_start;
+    private java.awt.Button btn_stop;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbl_room;
+    private javax.swing.JTable tbl_auction;
     // End of variables declaration//GEN-END:variables
 }

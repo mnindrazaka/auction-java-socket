@@ -18,6 +18,7 @@ public class Auction {
     private final InetAddress address;
     private final int port;
     private final Auctioneer auctioneer;
+    private boolean status = false;
 
     public Auction(Product product, InetAddress address, int port) {
         this.product = product;
@@ -58,5 +59,13 @@ public class Auction {
     
     public Auctioneer getAuctioneer() {
         return auctioneer;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
