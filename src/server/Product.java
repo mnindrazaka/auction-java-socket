@@ -5,11 +5,13 @@
  */
 package server;
 
+import java.io.Serializable;
+
 /**
  *
  * @author aka
  */
-public class Product {
+public class Product implements Serializable {
     
     private String name;
     private int price;

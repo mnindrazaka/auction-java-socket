@@ -1,5 +1,7 @@
 package Data;
 
+import java.io.Serializable;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,7 +12,7 @@ package Data;
  *
  * @author aka
  */
-public class Data {
+public class Data implements Serializable {
     private int type;
     private Object payload;
     
@@ -19,6 +21,10 @@ public class Data {
     public static final int REQUEST_BID = 2;
     public static final int RESPONSE_BID = 3;
 
+    public Data(int type) {
+        this.type = type;
+    }
+    
     public Data(int type, Object payload) {
         this.type = type;
         this.payload = payload;

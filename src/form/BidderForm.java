@@ -5,17 +5,28 @@
  */
 package form;
 
+import client.Bidder;
+import client.BidderCandidate;
+
 /**
  *
  * @author aka
  */
 public class BidderForm extends javax.swing.JFrame {
 
+    private Bidder bidder;
+    private BidderCandidate bidderCandidate = new BidderCandidate();
+    
+    
     /**
      * Creates new form BidderForm
      */
     public BidderForm() {
         initComponents();
+        bidderCandidate.sendAuctionListRequest();
+        bidderCandidate.listenAuctionList(() -> {
+            setAuctionList();
+        });
     }
 
     /**
@@ -25,22 +36,75 @@ public class BidderForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cmb_auction_list = new javax.swing.JComboBox<>();
+        btn_refresh = new javax.swing.JButton();
+        btn_join = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        cmb_auction_list.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btn_refresh.setText("Refresh");
+        btn_refresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_refreshMouseClicked(evt);
+            }
+        });
+
+        btn_join.setText("Join");
+        btn_join.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_joinMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cmb_auction_list, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_join)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_refresh)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmb_auction_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_refresh)
+                    .addComponent(btn_join))
+                .addContainerGap(261, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_refreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_refreshMouseClicked
+        // TODO add your handling code here:
+        bidderCandidate.sendAuctionListRequest();
+    }//GEN-LAST:event_btn_refreshMouseClicked
+
+    private void btn_joinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_joinMouseClicked
+        // TODO add your handling code here:
+        int index = cmb_auction_list.getSelectedIndex();
+        bidder = new Bidder("wowo", bidderCandidate.getAuctions().get(index));
+        bidder.joinAuction();
+    }//GEN-LAST:event_btn_joinMouseClicked
+
+    private void setAuctionList() {
+        System.out.println("set auction");
+        cmb_auction_list.removeAllItems();
+        bidderCandidate.getAuctions().forEach((auction) -> {
+            cmb_auction_list.addItem(auction.getProduct().getName());
+        });
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -57,15 +121,11 @@ public class BidderForm extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BidderForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BidderForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BidderForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(BidderForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -77,5 +137,8 @@ public class BidderForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_join;
+    private javax.swing.JButton btn_refresh;
+    private javax.swing.JComboBox<String> cmb_auction_list;
     // End of variables declaration//GEN-END:variables
 }

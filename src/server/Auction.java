@@ -6,13 +6,14 @@
 package server;
 
 import Data.Bid;
+import java.io.Serializable;
 import java.net.InetAddress;
 
 /**
  *
  * @author aka
  */
-public class Auction {
+public class Auction implements Serializable {
     private final Product product;
     private Bid lastBid;
     private final InetAddress address;

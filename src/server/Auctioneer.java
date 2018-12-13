@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.MulticastSocket;
 
@@ -20,9 +21,9 @@ import java.net.MulticastSocket;
  *
  * @author aka
  */
-public class Auctioneer {
+public class Auctioneer implements Serializable {
 
-    private MulticastSocket socket;
+    private transient MulticastSocket socket;
     private Auction auction;
 
     public Auctioneer(Auction auction) {
