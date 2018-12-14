@@ -46,6 +46,7 @@ public class Auctioneer implements Serializable {
 
     public void leaveAuction() {
         try {
+            sendEndAuction();
             socket.leaveGroup(auction.getAddress());
             auction.setStatus(false);
         } catch (IOException ex) {
@@ -87,6 +88,21 @@ public class Auctioneer implements Serializable {
             ObjectOutputStream outputObject = new ObjectOutputStream(outputBytes);
 
             outputObject.writeObject(new Data(Data.RESPONSE_BID, auction.getLastBid()));
+            byte[] bytesData = outputBytes.toByteArray();
+            DatagramPacket packet = new DatagramPacket(bytesData, bytesData.length, auction.getAddress(), auction.getPort());
+            socket.send(packet);
+            System.out.println("Lastbid Send");
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void sendEndAuction() {
+        try {
+            ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
+            ObjectOutputStream outputObject = new ObjectOutputStream(outputBytes);
+
+            outputObject.writeObject(new Data(Data.AUCTION_END));
             byte[] bytesData = outputBytes.toByteArray();
             DatagramPacket packet = new DatagramPacket(bytesData, bytesData.length, auction.getAddress(), auction.getPort());
             socket.send(packet);

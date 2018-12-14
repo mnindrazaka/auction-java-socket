@@ -80,7 +80,7 @@ public class Bidder {
         return price > auction.getLastBid().getPrice();
     }
 
-    public void listenBid(Runnable callback) {
+    public void listenBid(Runnable callbackBid, Runnable callbackEnd) {
         new Thread(() -> {
             while (true) {
                 try {
@@ -92,11 +92,12 @@ public class Bidder {
                     ObjectInputStream inputObject = new ObjectInputStream(inputBytes);
 
                     Data data = (Data) inputObject.readObject();
-                    System.out.println("object found");
                     if (data.getType() == Data.RESPONSE_BID) {
                         auction.setLastBid((Bid) data.getPayload());
-                        System.out.println("Bidder : " + ((Bid) data.getPayload()).getUsername());
-                        callback.run();
+                        callbackBid.run();
+                    } else if (data.getType() == Data.AUCTION_END) {
+                        leaveAuction();
+                        callbackEnd.run();
                     }
                 } catch (IOException | ClassNotFoundException ex) {
                     System.out.println(ex.getMessage());

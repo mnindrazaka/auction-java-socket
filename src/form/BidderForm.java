@@ -221,6 +221,8 @@ public class BidderForm extends javax.swing.JFrame {
             
             bidder.listenBid(() -> {
                 updateLastBid();
+            }, () -> {
+                normalMode();
             });    
             auctionMode();
         } else {
@@ -236,9 +238,7 @@ public class BidderForm extends javax.swing.JFrame {
     private void btn_make_bidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_make_bidMouseClicked
         // TODO add your handling code here:
         int price = Integer.parseInt(txt_price.getText());
-        if(!bidder.makeBid(price)) {
-            JOptionPane.showMessageDialog(this, "Price not enough");
-        }
+        bidder.makeBid(price);
     }//GEN-LAST:event_btn_make_bidMouseClicked
 
     private void setAuctionList() {

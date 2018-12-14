@@ -14,6 +14,11 @@ import java.net.InetAddress;
  * @author aka
  */
 public class Auction implements Serializable {
+    public static final int NOT_STARTED = 1;    
+    public static final int STARTED = 2;
+    public static final int FINISHED = 3;
+
+    
     private final Product product;
     private Bid lastBid;
     private final InetAddress address;

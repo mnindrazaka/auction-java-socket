@@ -19,7 +19,8 @@ public class Data implements Serializable {
     public static final int REQUEST_AUCTIONS = 0;    
     public static final int RESPONSE_AUCTIONS = 1;
     public static final int REQUEST_BID = 2;
-    public static final int RESPONSE_BID = 3;
+    public static final int RESPONSE_BID = 3;    
+    public static final int AUCTION_END = 4;
 
     public Data(int type) {
         this.type = type;
