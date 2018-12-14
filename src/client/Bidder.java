@@ -12,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 import server.Auction;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.MulticastSocket;
@@ -26,7 +25,7 @@ public class Bidder {
 
     private String username;
     private MulticastSocket socket;
-    public Auction auction;
+    private Auction auction;
 
     public Bidder(String username, Auction auction) {
         try {
@@ -60,7 +59,7 @@ public class Bidder {
         if (isPriceEnough(price)) {
             try {
                 ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
-                ObjectOutput outputObject = new ObjectOutputStream(outputBytes);
+                ObjectOutputStream outputObject = new ObjectOutputStream(outputBytes);
 
                 outputObject.writeObject(new Data(Data.REQUEST_BID, new Bid(price, username)));
                 byte[] bytesData = outputBytes.toByteArray();
@@ -77,7 +76,7 @@ public class Bidder {
         return price > auction.getLastBid().getPrice();
     }
 
-    public void listenBid() {
+    public void listenBid(Runnable callback) {
         new Thread(() -> {
             try {
                 byte[] incomingData = new byte[1024];
@@ -91,10 +90,15 @@ public class Bidder {
 
                 if (data.getType() == Data.RESPONSE_BID) {
                     auction.setLastBid((Bid) data.getPayload());
+                    callback.run();
                 }
             } catch (IOException | ClassNotFoundException ex) {
                 System.out.println(ex.getMessage());
             }
         }).start();
+    }
+
+    public Auction getAuction() {
+        return auction;
     }
 }

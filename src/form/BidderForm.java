@@ -39,6 +39,13 @@ public class BidderForm extends javax.swing.JFrame {
         cmb_auction_list = new javax.swing.JComboBox<>();
         btn_refresh = new javax.swing.JButton();
         btn_join = new javax.swing.JButton();
+        txt_nama = new javax.swing.JTextField();
+        panel1 = new java.awt.Panel();
+        txt_product_name = new javax.swing.JLabel();
+        txt_last_bid = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txt_price = new javax.swing.JTextField();
+        btn_make_bid = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,28 +65,90 @@ public class BidderForm extends javax.swing.JFrame {
             }
         });
 
+        txt_product_name.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        txt_product_name.setText("Product Name");
+
+        txt_last_bid.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        txt_last_bid.setText("Rp. 5000");
+
+        jLabel1.setText("Last Bid");
+
+        btn_make_bid.setText("Make Bid");
+        btn_make_bid.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_make_bidMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(txt_product_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(86, 86, 86))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txt_last_bid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(txt_price, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_make_bid)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txt_product_name)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_last_bid)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_make_bid))
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cmb_auction_list, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_join)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_refresh)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_nama)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_join)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmb_auction_list, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_refresh))
+                            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 6, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmb_auction_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_refresh)
-                    .addComponent(btn_join))
-                .addContainerGap(261, Short.MAX_VALUE))
+                    .addComponent(btn_refresh))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_join)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -93,9 +162,20 @@ public class BidderForm extends javax.swing.JFrame {
     private void btn_joinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_joinMouseClicked
         // TODO add your handling code here:
         int index = cmb_auction_list.getSelectedIndex();
-        bidder = new Bidder("wowo", bidderCandidate.getAuctions().get(index));
+        bidder = new Bidder(txt_nama.getText(), bidderCandidate.getAuctions().get(index));
         bidder.joinAuction();
+        updateLastBid();
+        
+        bidder.listenBid(() -> {
+            updateLastBid();
+        });
     }//GEN-LAST:event_btn_joinMouseClicked
+
+    private void btn_make_bidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_make_bidMouseClicked
+        // TODO add your handling code here:
+        int price = Integer.parseInt(txt_price.getText());
+        bidder.makeBid(price);
+    }//GEN-LAST:event_btn_make_bidMouseClicked
 
     private void setAuctionList() {
         System.out.println("set auction");
@@ -103,6 +183,10 @@ public class BidderForm extends javax.swing.JFrame {
         bidderCandidate.getAuctions().forEach((auction) -> {
             cmb_auction_list.addItem(auction.getProduct().getName());
         });
+    }
+    
+    private void updateLastBid() {
+        txt_last_bid.setText("Rp. " + String.valueOf(bidder.getAuction().getLastBid().getPrice()));
     }
     
     /**
@@ -138,7 +222,14 @@ public class BidderForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_join;
+    private javax.swing.JButton btn_make_bid;
     private javax.swing.JButton btn_refresh;
     private javax.swing.JComboBox<String> cmb_auction_list;
+    private javax.swing.JLabel jLabel1;
+    private java.awt.Panel panel1;
+    private javax.swing.JLabel txt_last_bid;
+    private javax.swing.JTextField txt_nama;
+    private javax.swing.JTextField txt_price;
+    private javax.swing.JLabel txt_product_name;
     // End of variables declaration//GEN-END:variables
 }

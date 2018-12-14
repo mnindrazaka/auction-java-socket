@@ -74,7 +74,7 @@ public class Server {
     public void sendAuctions(ObjectOutputStream output) {
         try {
             output.writeObject(new Data(Data.RESPONSE_AUCTIONS, auctions));
-            System.err.println("Request send");
+            output.reset();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
