@@ -35,9 +35,9 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btn_refresh" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="panel1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="panel_auction" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -57,7 +57,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_join" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panel1" max="32767" attributes="0"/>
+              <Component id="panel_auction" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -97,7 +97,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txt_nama">
     </Component>
-    <Container class="java.awt.Panel" name="panel1">
+    <Container class="java.awt.Panel" name="panel_auction">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -109,16 +109,26 @@
                           <Component id="txt_product_name" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="txt_last_bid" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="txt_price" min="-2" pref="177" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btn_make_bid" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="txt_last_bid" min="-2" pref="169" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="txt_last_bidder" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txt_price" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
+                                      <Component id="lbl_last_bid" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="lbl_last_bidder" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btn_make_bid" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="0" pref="24" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -130,9 +140,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="txt_product_name" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl_last_bid" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl_last_bidder" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txt_last_bid" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txt_last_bid" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_last_bidder" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="txt_price" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -160,7 +176,7 @@
             <Property name="text" type="java.lang.String" value="Rp. 5000"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="lbl_last_bid">
           <Properties>
             <Property name="text" type="java.lang.String" value="Last Bid"/>
           </Properties>
@@ -174,6 +190,19 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_make_bidMouseClicked"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_last_bidder">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Bidder"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="txt_last_bidder">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Name"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

@@ -29,9 +29,9 @@ public class Auction implements Serializable {
         this.auctioneer = new Auctioneer(this);
     }
     
-    public void startAuction() {
+    public void startAuction(Runnable callback) {
         auctioneer.joinAuction();
-        auctioneer.listenBid();
+        auctioneer.listenBid(callback);
     }
     
     public void stopAuction() {

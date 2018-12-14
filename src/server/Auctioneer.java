@@ -53,7 +53,7 @@ public class Auctioneer implements Serializable {
         }
     }
 
-    public void listenBid() {
+    public void listenBid(Runnable callback) {
         new Thread(() -> {
             while (true) {
                 try {
@@ -65,9 +65,14 @@ public class Auctioneer implements Serializable {
                     ObjectInputStream inputObject = new ObjectInputStream(inputBytes);
                     
                     Data data = (Data) inputObject.readObject();
+                    Bid bidRequest = (Bid) data.getPayload();
                     
                     if (data.getType() == Data.REQUEST_BID) {
-                        setLastBid((Bid) data.getPayload());
+                        if (bidRequest.getPrice() > auction.getLastBid().getPrice()) {
+                            auction.setLastBid(bidRequest);
+                            sendLastBid();
+                            callback.run();
+                        }
                     }
                 } catch (IOException | ClassNotFoundException ex) {
                     System.out.println(ex.getMessage());
@@ -76,22 +81,16 @@ public class Auctioneer implements Serializable {
         }).start();
     }
 
-    public void setLastBid(Bid bid) {
-        if (bid.getPrice() > auction.getLastBid().getPrice()) {
-            auction.setLastBid(bid);
-            sendLastBid();
-        }
-    }
-
     public void sendLastBid() {
         try {
             ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
-            ObjectOutput outputObject = new ObjectOutputStream(outputBytes);
+            ObjectOutputStream outputObject = new ObjectOutputStream(outputBytes);
 
             outputObject.writeObject(new Data(Data.RESPONSE_BID, auction.getLastBid()));
             byte[] bytesData = outputBytes.toByteArray();
-            DatagramPacket packet = new DatagramPacket(bytesData, bytesData.length);
+            DatagramPacket packet = new DatagramPacket(bytesData, bytesData.length, auction.getAddress(), auction.getPort());
             socket.send(packet);
+            System.out.println("Lastbid Send");
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }

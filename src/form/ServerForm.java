@@ -203,11 +203,13 @@ public class ServerForm extends javax.swing.JFrame {
 
     private void btn_startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_startMouseClicked
         // TODO add your handling code here:
-        selectedAuction.startAuction();
+        selectedAuction.startAuction(() -> {
+            refreshTable();
+        });
         refreshTable();
         normalMode();
     }//GEN-LAST:event_btn_startMouseClicked
-
+  
     private void btn_stopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_stopMouseClicked
         // TODO add your handling code here:
         selectedAuction.stopAuction();

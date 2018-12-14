@@ -39,12 +39,15 @@ public class Bidder {
         }
     }
 
-    public void joinAuction() {
+    public boolean joinAuction() {
         try {
-            socket.joinGroup(auction.getAddress());
+            if (auction.getStatus()) {
+                socket.joinGroup(auction.getAddress());
+            }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+        return auction.getStatus();
     }
 
     public void leaveAuction() {
@@ -63,8 +66,9 @@ public class Bidder {
 
                 outputObject.writeObject(new Data(Data.REQUEST_BID, new Bid(price, username)));
                 byte[] bytesData = outputBytes.toByteArray();
-                DatagramPacket packet = new DatagramPacket(bytesData, bytesData.length);
+                DatagramPacket packet = new DatagramPacket(bytesData, bytesData.length, auction.getAddress(), auction.getPort());
                 socket.send(packet);
+                outputObject.reset();
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -78,22 +82,25 @@ public class Bidder {
 
     public void listenBid(Runnable callback) {
         new Thread(() -> {
-            try {
-                byte[] incomingData = new byte[1024];
-                DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-                socket.receive(incomingPacket);
+            while (true) {
+                try {
+                    byte[] incomingData = new byte[1024];
+                    DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+                    socket.receive(incomingPacket);
 
-                ByteArrayInputStream inputBytes = new ByteArrayInputStream(incomingPacket.getData());
-                ObjectInputStream inputObject = new ObjectInputStream(inputBytes);
+                    ByteArrayInputStream inputBytes = new ByteArrayInputStream(incomingPacket.getData());
+                    ObjectInputStream inputObject = new ObjectInputStream(inputBytes);
 
-                Data data = (Data) inputObject.readObject();
-
-                if (data.getType() == Data.RESPONSE_BID) {
-                    auction.setLastBid((Bid) data.getPayload());
-                    callback.run();
+                    Data data = (Data) inputObject.readObject();
+                    System.out.println("object found");
+                    if (data.getType() == Data.RESPONSE_BID) {
+                        auction.setLastBid((Bid) data.getPayload());
+                        System.out.println("Bidder : " + ((Bid) data.getPayload()).getUsername());
+                        callback.run();
+                    }
+                } catch (IOException | ClassNotFoundException ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (IOException | ClassNotFoundException ex) {
-                System.out.println(ex.getMessage());
             }
         }).start();
     }
