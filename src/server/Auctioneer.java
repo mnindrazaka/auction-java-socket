@@ -11,7 +11,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.DatagramPacket;
@@ -38,7 +37,7 @@ public class Auctioneer implements Serializable {
     public void joinAuction() {
         try {
             socket.joinGroup(auction.getAddress());
-            auction.setStatus(true);
+            auction.setStatus(Auction.STARTED);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -48,7 +47,7 @@ public class Auctioneer implements Serializable {
         try {
             sendEndAuction();
             socket.leaveGroup(auction.getAddress());
-            auction.setStatus(false);
+            auction.setStatus(Auction.FINISHED);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }

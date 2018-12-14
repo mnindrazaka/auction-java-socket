@@ -41,13 +41,13 @@ public class Bidder {
 
     public boolean joinAuction() {
         try {
-            if (auction.getStatus()) {
+            if (auction.getStatus() == Auction.STARTED) {
                 socket.joinGroup(auction.getAddress());
             }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        return auction.getStatus();
+        return auction.getStatus() == Auction.STARTED;
     }
 
     public void leaveAuction() {

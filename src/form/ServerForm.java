@@ -39,7 +39,7 @@ public class ServerForm extends javax.swing.JFrame {
         btn_print = new java.awt.Button();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_auction = new javax.swing.JTable();
-        btn_stop = new java.awt.Button();
+        btn_finish = new java.awt.Button();
         btn_create = new java.awt.Button();
         btn_start = new java.awt.Button();
         btn_cancel = new java.awt.Button();
@@ -75,11 +75,11 @@ public class ServerForm extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_auction);
 
-        btn_stop.setActionCommand("buttonCreate");
-        btn_stop.setLabel("Stop");
-        btn_stop.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_finish.setActionCommand("buttonCreate");
+        btn_finish.setLabel("Finish");
+        btn_finish.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_stopMouseClicked(evt);
+                btn_finishMouseClicked(evt);
             }
         });
 
@@ -122,7 +122,7 @@ public class ServerForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_start, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_finish, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_print, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -134,7 +134,7 @@ public class ServerForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_stop, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_finish, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_print, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_create, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_start, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -145,7 +145,7 @@ public class ServerForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btn_stop.getAccessibleContext().setAccessibleName("buttonCreate");
+        btn_finish.getAccessibleContext().setAccessibleName("buttonCreate");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -154,14 +154,14 @@ public class ServerForm extends javax.swing.JFrame {
         tbl_auction.clearSelection();
         btn_print.setEnabled(false);
         btn_start.setEnabled(false);
-        btn_stop.setEnabled(false);
+        btn_finish.setEnabled(false);
         btn_cancel.setEnabled(false);
     }
     
     private void editMode() {
         btn_print.setEnabled(true);
-        btn_start.setEnabled(!selectedAuction.getStatus());
-        btn_stop.setEnabled(selectedAuction.getStatus());
+        btn_start.setEnabled(selectedAuction.getStatus() == Auction.NOT_STARTED);
+        btn_finish.setEnabled(selectedAuction.getStatus() == Auction.STARTED);
         btn_cancel.setEnabled(true);
     }
     
@@ -174,6 +174,8 @@ public class ServerForm extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tbl_auction.getModel();
         model.setRowCount(0);
         server.getAuctions().forEach((auction) -> {
+            int status = auction.getStatus();
+            
             model.addRow(new Object[]{
                 auction.getProduct().getName(),
                 auction.getProduct().getPrice(),
@@ -181,7 +183,7 @@ public class ServerForm extends javax.swing.JFrame {
                 auction.getPort(),
                 auction.getLastBid().getPrice(),
                 auction.getLastBid().getUsername(),
-                auction.getStatus() ? "Started" : "Stopped"
+                status == Auction.NOT_STARTED ? "not started" : status == Auction.STARTED ? "started" : "finished"
             });
         });
     }
@@ -213,12 +215,12 @@ public class ServerForm extends javax.swing.JFrame {
         normalMode();
     }//GEN-LAST:event_btn_startMouseClicked
   
-    private void btn_stopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_stopMouseClicked
+    private void btn_finishMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_finishMouseClicked
         // TODO add your handling code here:
         selectedAuction.stopAuction();
         refreshTable();
         normalMode();
-    }//GEN-LAST:event_btn_stopMouseClicked
+    }//GEN-LAST:event_btn_finishMouseClicked
     
     /**
      * @param args the command line arguments
@@ -261,9 +263,9 @@ public class ServerForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button btn_cancel;
     private java.awt.Button btn_create;
+    private java.awt.Button btn_finish;
     private java.awt.Button btn_print;
     private java.awt.Button btn_start;
-    private java.awt.Button btn_stop;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbl_auction;
     // End of variables declaration//GEN-END:variables

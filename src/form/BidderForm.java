@@ -222,11 +222,12 @@ public class BidderForm extends javax.swing.JFrame {
             bidder.listenBid(() -> {
                 updateLastBid();
             }, () -> {
+                bidderCandidate.sendAuctionListRequest();
                 normalMode();
             });    
             auctionMode();
         } else {
-            JOptionPane.showMessageDialog(this, "Auction not started");
+            JOptionPane.showMessageDialog(this, "Auction not started or already finished");
         }
     }//GEN-LAST:event_btn_joinMouseClicked
 

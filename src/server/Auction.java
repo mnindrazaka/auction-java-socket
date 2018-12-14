@@ -24,7 +24,7 @@ public class Auction implements Serializable {
     private final InetAddress address;
     private final int port;
     private final Auctioneer auctioneer;
-    private boolean status = false;
+    private int status = Auction.NOT_STARTED;
 
     public Auction(Product product, InetAddress address, int port) {
         this.product = product;
@@ -67,11 +67,11 @@ public class Auction implements Serializable {
         return auctioneer;
     }
 
-    public boolean getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

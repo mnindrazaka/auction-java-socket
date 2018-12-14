@@ -34,7 +34,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btn_start" min="-2" pref="101" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btn_stop" min="-2" pref="101" max="-2" attributes="0"/>
+                              <Component id="btn_finish" min="-2" pref="101" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btn_print" min="-2" pref="101" max="-2" attributes="0"/>
                           </Group>
@@ -52,7 +52,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btn_stop" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="btn_finish" min="-2" pref="33" max="-2" attributes="0"/>
                   <Component id="btn_print" min="-2" pref="33" max="-2" attributes="0"/>
                   <Component id="btn_create" min="-2" pref="33" max="-2" attributes="0"/>
                   <Component id="btn_start" min="-2" pref="33" max="-2" attributes="0"/>
@@ -145,16 +145,16 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="java.awt.Button" name="btn_stop">
+    <Component class="java.awt.Button" name="btn_finish">
       <Properties>
         <Property name="actionCommand" type="java.lang.String" value="buttonCreate"/>
-        <Property name="label" type="java.lang.String" value="Stop"/>
+        <Property name="label" type="java.lang.String" value="Finish"/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="buttonCreate"/>
       </AccessibilityProperties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_stopMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_finishMouseClicked"/>
       </Events>
     </Component>
     <Component class="java.awt.Button" name="btn_create">
