@@ -6,12 +6,16 @@
 package server;
 
 import Data.Data;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -90,5 +94,24 @@ public class Server {
 
     public ArrayList<Auction> getAuctions() {
         return auctions;
+    }
+    
+    public void print() {
+        try {
+            PrintWriter writer = new PrintWriter("output.txt");
+            writer.println("Product Name | Price | Address | Port | Last Bid | Last Bidder");
+            
+            auctions.forEach((auction) -> {
+                writer.print(auction.getProduct().getName() + " | ");
+                writer.print(auction.getProduct().getPrice() + " | ");
+                writer.print(auction.getAddress().toString() + " | ");
+                writer.print(auction.getPort() + " | ");
+                writer.print(auction.getLastBid().getPrice() + " | ");
+                writer.println(auction.getLastBid().getUsername());
+            });
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -5,6 +5,7 @@
  */
 package form;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import server.Auction;
 import server.Server;
@@ -48,6 +49,11 @@ public class ServerForm extends javax.swing.JFrame {
 
         btn_print.setActionCommand("ButtonPrint");
         btn_print.setLabel("Print Out");
+        btn_print.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_printMouseClicked(evt);
+            }
+        });
 
         tbl_auction.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -152,14 +158,14 @@ public class ServerForm extends javax.swing.JFrame {
     
     private void normalMode() {
         tbl_auction.clearSelection();
-        btn_print.setEnabled(false);
+        btn_print.setEnabled(true);
         btn_start.setEnabled(false);
         btn_finish.setEnabled(false);
         btn_cancel.setEnabled(false);
     }
     
     private void editMode() {
-        btn_print.setEnabled(true);
+        btn_print.setEnabled(false);
         btn_start.setEnabled(selectedAuction.getStatus() == Auction.NOT_STARTED);
         btn_finish.setEnabled(selectedAuction.getStatus() == Auction.STARTED);
         btn_cancel.setEnabled(true);
@@ -221,6 +227,12 @@ public class ServerForm extends javax.swing.JFrame {
         refreshTable();
         normalMode();
     }//GEN-LAST:event_btn_finishMouseClicked
+
+    private void btn_printMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_printMouseClicked
+        // TODO add your handling code here:
+        server.print();
+        JOptionPane.showMessageDialog(this, "Auctions printed successfully");
+    }//GEN-LAST:event_btn_printMouseClicked
     
     /**
      * @param args the command line arguments

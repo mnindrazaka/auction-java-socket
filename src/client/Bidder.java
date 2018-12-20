@@ -21,8 +21,7 @@ import java.net.UnknownHostException;
  *
  * @author aka
  */
-public class Bidder {
-
+public class Bidder {    
     private String username;
     private MulticastSocket socket;
     private Auction auction;

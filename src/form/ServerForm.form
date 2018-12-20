@@ -72,6 +72,9 @@
         <Property name="actionCommand" type="java.lang.String" value="ButtonPrint"/>
         <Property name="label" type="java.lang.String" value="Print Out"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_printMouseClicked"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
