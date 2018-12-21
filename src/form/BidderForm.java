@@ -10,6 +10,8 @@ import client.BidderCandidate;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,6 +33,7 @@ public class BidderForm extends javax.swing.JFrame {
             setAuctionList();
         });
         normalMode();
+        autoRefresh();
     }
 
     private void normalMode() {
@@ -220,6 +223,16 @@ public class BidderForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void autoRefresh() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                bidderCandidate.sendAuctionListRequest();
+            }
+        }, 0, 1500);
+    }
+    
     private void btn_refreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_refreshMouseClicked
         // TODO add your handling code here:
         bidderCandidate.sendAuctionListRequest();
