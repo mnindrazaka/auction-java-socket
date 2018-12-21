@@ -1,3 +1,0 @@
-Product Name | Price | Address | Port | Last Bid | Last Bidder
-Kabutaku | 3000 | /200.0.0.30 | 3000 | 3000 | null
-Robot | 2000 | /10.10.20.2 | 4000 | 2000 | null

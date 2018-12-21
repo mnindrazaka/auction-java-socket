@@ -98,16 +98,18 @@ public class Server {
     
     public void print() {
         try {
-            PrintWriter writer = new PrintWriter("output.txt");
+            PrintWriter writer = new PrintWriter("output.pdf");
             writer.println("Product Name | Price | Address | Port | Last Bid | Last Bidder");
             
             auctions.forEach((auction) -> {
-                writer.print(auction.getProduct().getName() + " | ");
-                writer.print(auction.getProduct().getPrice() + " | ");
-                writer.print(auction.getAddress().toString() + " | ");
-                writer.print(auction.getPort() + " | ");
-                writer.print(auction.getLastBid().getPrice() + " | ");
-                writer.println(auction.getLastBid().getUsername());
+                if (auction.getStatus() == Auction.FINISHED) {
+                    writer.print(auction.getProduct().getName() + " | ");
+                    writer.print(auction.getProduct().getPrice() + " | ");
+                    writer.print(auction.getAddress().toString() + " | ");
+                    writer.print(auction.getPort() + " | ");
+                    writer.print(auction.getLastBid().getPrice() + " | ");
+                    writer.println(auction.getLastBid().getUsername());   
+                }
             });
             writer.close();
         } catch (FileNotFoundException ex) {
